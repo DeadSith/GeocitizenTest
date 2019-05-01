@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using GeocitizenTest.Framework.Helpers;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,17 +10,31 @@ namespace GeocitizenTest.Framework.Components
     {
         protected readonly IWebDriver driver;
 
+        protected By UserControlDropdownLocator => By.CssSelector("button:not(.md-icon-button)");
+
+        protected By AdministrationButtonLocator => By.CssSelector("li[to='/admin'] a");
+
+        protected By ToolbarEndSectionLocator => By.CssSelector(".md-toolbar-row .md-toolbar-section-end");
+
         public MainToolbar(IWebDriver driver)
         {
             this.driver = driver;
         }
 
-        protected IWebElement ToolbarEndSection => driver.FindElement(By.CssSelector(".md-toolbar-row .md-toolbar-section-end"));
+        protected IWebElement ToolbarEndSection => driver.FindElement(ToolbarEndSectionLocator);
 
         public IWebElement LoginLink => ToolbarEndSection.FindElement(By.TagName("a"));
 
-        public IWebElement UserControlDropdown => ToolbarEndSection.FindElement(By.CssSelector("button:not(.md-icon-button)"));
+        public IWebElement UserControlDropdown => ToolbarEndSection.FindElement(UserControlDropdownLocator);
 
-        public IWebElement AdministrationButton => driver.FindElement(By.CssSelector("li[to='/admin'] a"));
+        public IWebElement AdministrationButton => driver.FindElement(AdministrationButtonLocator);
+
+        public void OpenUserControlDropdown()
+        {
+            if (!ElementsHelper.IsElementVisible(AdministrationButtonLocator))
+            {
+                UserControlDropdown.Click();
+            }
+        }
     }
 }

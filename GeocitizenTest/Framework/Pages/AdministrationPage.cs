@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using GeocitizenTest.Framework.Lists;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,20 @@ namespace GeocitizenTest.Framework.Pages
     {
         protected readonly IWebDriver driver;
 
-        public IWebElement UsersButton => driver.FindElement(By.CssSelector("li[to='/admin/users'] a"));
+        public AdministrationPage(IWebDriver driver)
+        {
+            this.driver = driver;
+        }
+
+        public By UsersButtonLocator => By.CssSelector("li[to='/admin/users'] a");
+
+        public IWebElement UsersButton => driver.FindElement(UsersButtonLocator);
+
+        public UsersList OpenUsersList()
+        {
+            UsersButton.Click();
+            var list = new UsersList(driver);
+            return list;
+        }
     }
 }

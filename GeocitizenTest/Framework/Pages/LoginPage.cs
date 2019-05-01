@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using GeocitizenTest.Framework.Helpers;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,18 +10,38 @@ namespace GeocitizenTest.Framework.Pages
     {
         protected readonly IWebDriver driver;
 
-        protected IWebElement AuthBox => driver.FindElement(By.Id("authorization"));
+        protected By AuthBoxLocator => By.Id("authorization");
 
-        public IWebElement Login => driver.FindElement(By.Id("a-login"));
+        protected By LoginLocator => By.Id("a-login");
 
-        public IWebElement Password => driver.FindElement(By.Id("a-password"));
+        protected By PasswordLocator => By.Id("a-password");
 
-        public IWebElement LogInButton => AuthBox.FindElement(By.CssSelector("button[type='submit']"));
+        protected By LogInButtonLocator => By.CssSelector("#authorization button[type='submit']");
+
+        public LoginPage(IWebDriver driver)
+        {
+            this.driver = driver;
+            WaitsHelper.WaitUntilElementIsVisible(AuthBoxLocator);
+        }
+
+        public IWebElement LogInButton => driver.FindElement(LogInButtonLocator);
 
         public void LogIn(string login, string password)
         {
-            //wait for box to appear, set values
-            //close alert
+            var authBox = driver.FindElement(AuthBoxLocator);
+            var loginInput = authBox.FindElement(LoginLocator);
+            var passwordInput = authBox.FindElement(PasswordLocator);
+
+            loginInput.Clear();
+            loginInput.SendKeys(login);
+
+            passwordInput.Clear();
+            passwordInput.SendKeys(password);
+
+            LogInButton.Click();
+
+            WaitsHelper.WaitUntilAlertIsPresent();
+            driver.SwitchTo().Alert().Accept();
         }
     }
 }

@@ -15,6 +15,21 @@ namespace GeocitizenTest.Framework.Pages
             this.driver = driver;
         }
 
-        protected MainToolbar MainToolbar => new MainToolbar(driver);
+        public MainToolbar MainToolbar => new MainToolbar(driver);
+
+        public LoginPage OpenLoginPage()
+        {
+            var toolbar = MainToolbar;
+            toolbar.LoginLink.Click();
+            return new LoginPage(driver);
+        }
+
+        public AdministrationPage OpenAdministrationPage()
+        {
+            var toolbar = MainToolbar;
+            toolbar.OpenUserControlDropdown();
+            toolbar.AdministrationButton.Click();
+            return new AdministrationPage(driver);
+        }
     }
 }

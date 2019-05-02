@@ -32,8 +32,8 @@ namespace GeocitizenTest.Framework.Lists
 
         public UsersList(IWebDriver driver)
         {
-            // Wait until table is present
             this.driver = driver;
+            WaitsHelper.WaitUntilElementIsVisible(UsersTableLocator, driver);
         }
 
         public IWebElement UsersTable => driver.FindElement(UsersTableLocator);
@@ -60,7 +60,7 @@ namespace GeocitizenTest.Framework.Lists
 
         public void OpenUserTypeSelect()
         {
-            if (!ElementsHelper.IsElementVisible(UserSelectOptionsContainerLocator))
+            if (!ElementsHelper.IsElementVisible(UserSelectOptionsContainerLocator, driver))
             {
                 UserRoleSelect.Click();
             }
@@ -84,7 +84,7 @@ namespace GeocitizenTest.Framework.Lists
 
         public int GetColumnIndex(UserListColumn columnName)
         {
-            var columns = UsersTable.FindElements(By.CssSelector("th i"));
+            var columns = UsersTable.FindElements(By.CssSelector("th > div > div"));
             var i = 1;
             foreach(var column in columns)
             {
@@ -112,6 +112,29 @@ namespace GeocitizenTest.Framework.Lists
             var cells = UsersTable.FindElements(By.CssSelector(selector));
             var values = cells.Select(c => c.Text);
             return values;
+        }
+
+        public void ClickOnColumnHeader(int columnIndex)
+        {
+            var selector = $"th:nth-child({columnIndex})";
+            var column = UsersTable.FindElement(By.CssSelector(selector));
+            column.Click();
+        }
+
+        public SortOrder GetSortOrder(int columnIndex)
+        {
+            var selector = $"th:nth-child({columnIndex})";
+            var column = UsersTable.FindElement(By.CssSelector(selector));
+            var classNames = column.GetAttribute("class");
+            if (classNames.Contains("md-sorted-desc"))
+            {
+                return SortOrder.Desc;
+            }
+            else if (classNames.Contains("md-sorted"))
+            {
+                return SortOrder.Asc;
+            }
+            return SortOrder.None;
         }
     }
 }

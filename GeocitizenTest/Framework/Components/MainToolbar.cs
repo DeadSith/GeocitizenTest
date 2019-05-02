@@ -16,6 +16,8 @@ namespace GeocitizenTest.Framework.Components
 
         protected By ToolbarEndSectionLocator => By.CssSelector(".md-toolbar-row .md-toolbar-section-end");
 
+        protected By LoginLinkLocator => By.ClassName("a.md-button");
+
         public MainToolbar(IWebDriver driver)
         {
             this.driver = driver;
@@ -23,7 +25,7 @@ namespace GeocitizenTest.Framework.Components
 
         protected IWebElement ToolbarEndSection => driver.FindElement(ToolbarEndSectionLocator);
 
-        public IWebElement LoginLink => ToolbarEndSection.FindElement(By.TagName("a"));
+        public IWebElement LoginLink => ToolbarEndSection.FindElement(LoginLinkLocator);
 
         public IWebElement UserControlDropdown => ToolbarEndSection.FindElement(UserControlDropdownLocator);
 
@@ -31,7 +33,7 @@ namespace GeocitizenTest.Framework.Components
 
         public void OpenUserControlDropdown()
         {
-            if (!ElementsHelper.IsElementVisible(AdministrationButtonLocator))
+            if (!ElementsHelper.IsElementVisible(AdministrationButtonLocator, driver))
             {
                 UserControlDropdown.Click();
             }

@@ -21,7 +21,7 @@ namespace GeocitizenTest.Framework.Pages
         public LoginPage(IWebDriver driver)
         {
             this.driver = driver;
-            WaitsHelper.WaitUntilElementIsVisible(AuthBoxLocator);
+            WaitsHelper.WaitUntilElementIsVisible(AuthBoxLocator, driver);
         }
 
         public IWebElement LogInButton => driver.FindElement(LogInButtonLocator);
@@ -40,7 +40,7 @@ namespace GeocitizenTest.Framework.Pages
 
             LogInButton.Click();
 
-            WaitsHelper.WaitUntilAlertIsPresent();
+            WaitsHelper.WaitUntilAlertIsPresent(driver);
             driver.SwitchTo().Alert().Accept();
         }
     }

@@ -14,9 +14,14 @@ namespace GeocitizenTest.Framework.Helpers
             return elements;
         }
 
-        public static bool IsElementVisible(By locator)
+        public static bool IsElementVisible(By locator, IWebDriver driver)
         {
-            throw new NotImplementedException();
+            var elements = driver.FindElements(locator);
+            if (elements.Count == 0)
+            {
+                return false;
+            }
+            return elements[0].Displayed;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GeocitizenTest.Framework.Lists;
+﻿using GeocitizenTest.Framework.Helpers;
+using GeocitizenTest.Framework.Lists;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,10 @@ namespace GeocitizenTest.Framework.Pages
         public AdministrationPage(IWebDriver driver)
         {
             this.driver = driver;
+            WaitsHelper.WaitUntilElementIsVisible(NavigationMenuLocator, driver);
         }
+
+        public By NavigationMenuLocator => By.CssSelector(".md-drawer");
 
         public By UsersButtonLocator => By.CssSelector("li[to='/admin/users'] a");
 

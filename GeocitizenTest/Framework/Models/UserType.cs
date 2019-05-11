@@ -10,7 +10,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var label = "All";
+                var label = Properties.Resources.UserType_All;
                 return new UserType(label);
             }
         }
@@ -19,7 +19,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var label = "Admin";
+                var label = Properties.Resources.UserType_Admin;
                 return new UserType(label);
             }
         }
@@ -28,7 +28,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var label = "Banned";
+                var label = Properties.Resources.UserType_Banned;
                 return new UserType(label);
             }
         }
@@ -37,7 +37,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var label = "Master";
+                var label = Properties.Resources.UserType_Master;
                 return new UserType(label);
             }
         }
@@ -46,7 +46,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var label = "User";
+                var label = Properties.Resources.UserType_User;
                 return new UserType(label);
             }
         }

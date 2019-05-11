@@ -43,5 +43,10 @@ namespace GeocitizenTest.Framework.Pages
             WaitsHelper.WaitUntilAlertIsPresent(driver);
             driver.SwitchTo().Alert().Accept();
         }
+
+        public void LogInAsAdmin()
+        {
+            LogIn("Admin_123", "Admin_123");
+        }
     }
 }

@@ -3,9 +3,8 @@ using GeocitizenTest.Framework.Pages;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Reflection;
 
 namespace GeocitizenTest.Framework
 {
@@ -16,8 +15,8 @@ namespace GeocitizenTest.Framework
         [SetUp]
         public void TestInit()
         {
-            ReportHelper.Instance.Initialize();
             driver = CreateDriver();
+            ReportHelper.Instance.Initialize(driver);
         }
 
         public MainPage OpenMainPage()
@@ -25,6 +24,7 @@ namespace GeocitizenTest.Framework
             driver.Navigate().GoToUrl("http://geocitizen.herokuapp.com");
             WaitsHelper.WaitUntilAlertIsPresent(driver);
             driver.SwitchTo().Alert().Accept();
+            driver.Manage().Window.Maximize();
             return new MainPage(driver);
         }
 
@@ -40,7 +40,7 @@ namespace GeocitizenTest.Framework
             var options = new ChromeOptions();
             options.AddArgument("no-sandbox");
             options.AddArguments("incognito");
-            var driver = new ChromeDriver(options);
+            var driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), options);
             return driver;
         }
     }

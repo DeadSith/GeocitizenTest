@@ -1,8 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GeocitizenTest.Framework.Helpers
 {
@@ -17,7 +15,7 @@ namespace GeocitizenTest.Framework.Helpers
         public static void WaitUntilAlertIsPresent(IWebDriver driver)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(d => 
+            wait.Until(d =>
             {
                 try
                 {
@@ -28,6 +26,12 @@ namespace GeocitizenTest.Framework.Helpers
                     return null;
                 }
             });
+        }
+
+        public static void WaitUntilElementIsHidden(By locator, IWebDriver driver)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(d => ElementsHelper.IsElementHidden(locator, d));
         }
     }
 }

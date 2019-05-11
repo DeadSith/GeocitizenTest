@@ -1,10 +1,8 @@
 ﻿using GeocitizenTest.Framework.Helpers;
 using GeocitizenTest.Framework.Models;
 using OpenQA.Selenium;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GeocitizenTest.Framework.Lists
 {
@@ -22,7 +20,7 @@ namespace GeocitizenTest.Framework.Lists
 
         protected By UserRoleSelectLocator => By.Id("type-filter");
 
-        protected By RowLocator => By.TagName("tr");
+        protected By RowLocator => By.TagName("tbody tr");
 
         protected By UserSelectOptionLocator => By.CssSelector(".md-select-menu .md-list-item-text");
 
@@ -34,6 +32,7 @@ namespace GeocitizenTest.Framework.Lists
         {
             this.driver = driver;
             WaitsHelper.WaitUntilElementIsVisible(UsersTableLocator, driver);
+            WaitsHelper.WaitUntilElementIsHidden(EmptyGridLabelLocator, driver);
         }
 
         public IWebElement UsersTable => driver.FindElement(UsersTableLocator);
@@ -44,25 +43,38 @@ namespace GeocitizenTest.Framework.Lists
 
         public IWebElement SearchCriteriaInput => driver.FindElement(SearchCriteriaInputLocator);
 
-        public IWebElement UserRoleSelect => driver.FindElement(UserRoleSelectLocator);
+        public IWebElement UserTypeSelect => driver.FindElement(UserRoleSelectLocator);
 
         public IReadOnlyCollection<IWebElement> Rows => UsersTable.FindElements(RowLocator);
 
-        public IReadOnlyCollection<IWebElement> UserSelectOptions => driver.FindElements(UserSelectOptionLocator);
+        public IReadOnlyCollection<IWebElement> UserTypeSelectOptions => driver.FindElements(UserSelectOptionLocator);
+
+        public IWebElement UserTypeOptionsContainer => driver.FindElement(UserSelectOptionsContainerLocator);
+
+        public IWebElement EmptyGridNotification => driver.FindElement(EmptyGridLabelLocator);
 
         public void SetUserType(UserType type)
         {
             OpenUserTypeSelect();
-            var dropdown = driver.FindElement(UserSelectOptionsContainerLocator);
-            var option = ElementsHelper.GetElementsByText(dropdown, type.Label).First();
+            var option = ElementsHelper.GetElementsByText(UserTypeOptionsContainer, type.Label).First();
             option.Click();
+            System.Threading.Thread.Sleep(1000);
         }
 
         public void OpenUserTypeSelect()
         {
             if (!ElementsHelper.IsElementVisible(UserSelectOptionsContainerLocator, driver))
             {
-                UserRoleSelect.Click();
+                UserTypeSelect.Click();
+            }
+        }
+
+        public string CurrentUserType
+        {
+            get
+            {
+                var typeInput = UserTypeSelect.FindElement(By.TagName("input"));
+                return typeInput.GetAttribute("value");
             }
         }
 
@@ -71,7 +83,7 @@ namespace GeocitizenTest.Framework.Lists
             get
             {
                 OpenUserTypeSelect();
-                return UserSelectOptions.Select(o => o.Text);
+                return UserTypeSelectOptions.Select(o => o.Text);
             }
         }
 
@@ -80,13 +92,14 @@ namespace GeocitizenTest.Framework.Lists
             var element = SearchCriteriaInput;
             element.Clear();
             element.SendKeys(criteria);
+            System.Threading.Thread.Sleep(1000);
         }
 
         public int GetColumnIndex(UserListColumn columnName)
         {
             var columns = UsersTable.FindElements(By.CssSelector("th > div > div"));
             var i = 1;
-            foreach(var column in columns)
+            foreach (var column in columns)
             {
                 var text = column.Text.Trim();
                 if (text == columnName.Name)
@@ -119,6 +132,7 @@ namespace GeocitizenTest.Framework.Lists
             var selector = $"th:nth-child({columnIndex})";
             var column = UsersTable.FindElement(By.CssSelector(selector));
             column.Click();
+            System.Threading.Thread.Sleep(1000);
         }
 
         public SortOrder GetSortOrder(int columnIndex)

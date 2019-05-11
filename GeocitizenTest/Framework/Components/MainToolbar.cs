@@ -16,7 +16,7 @@ namespace GeocitizenTest.Framework.Components
 
         protected By ToolbarEndSectionLocator => By.CssSelector(".md-toolbar-row .md-toolbar-section-end");
 
-        protected By LoginLinkLocator => By.ClassName("a.md-button");
+        protected By LoginLinkLocator => By.CssSelector("a.md-button");
 
         public MainToolbar(IWebDriver driver)
         {

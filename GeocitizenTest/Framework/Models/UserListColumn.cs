@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GeocitizenTest.Framework.Models
+﻿namespace GeocitizenTest.Framework.Models
 {
     public class UserListColumn
     {
@@ -10,7 +6,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var columnName = "Login";
+                var columnName = Properties.Resources.UserListColumn_Login;
                 return new UserListColumn(columnName);
             }
         }
@@ -19,7 +15,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var columnName = "Email";
+                var columnName = Properties.Resources.UserListColumn_Email;
                 return new UserListColumn(columnName);
             }
         }
@@ -28,7 +24,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var columnName = "First name";
+                var columnName = Properties.Resources.UserListColumn_FirstName;
                 return new UserListColumn(columnName);
             }
         }
@@ -37,7 +33,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var columnName = "Last name";
+                var columnName = Properties.Resources.UserListColumn_LastName;
                 return new UserListColumn(columnName);
             }
         }
@@ -46,7 +42,7 @@ namespace GeocitizenTest.Framework.Models
         {
             get
             {
-                var columnName = "Type";
+                var columnName = Properties.Resources.UserListColumn_Type;
                 return new UserListColumn(columnName);
             }
         }
@@ -56,6 +52,6 @@ namespace GeocitizenTest.Framework.Models
             Name = columnName;
         }
 
-        public string Name { get; }        
+        public string Name { get; }
     }
 }

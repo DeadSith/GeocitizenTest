@@ -1,7 +1,5 @@
 ﻿using OpenQA.Selenium;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GeocitizenTest.Framework.Helpers
 {
@@ -9,7 +7,7 @@ namespace GeocitizenTest.Framework.Helpers
     {
         public static IReadOnlyCollection<IWebElement> GetElementsByText(IWebElement parent, string text)
         {
-            var format = $".//*[contain(text(), '{text}')]";
+            var format = $".//*[contains(text(), '{text}')]";
             var elements = parent.FindElements(By.XPath(format));
             return elements;
         }
@@ -22,6 +20,16 @@ namespace GeocitizenTest.Framework.Helpers
                 return false;
             }
             return elements[0].Displayed;
+        }
+
+        public static bool IsElementHidden(By locator, IWebDriver driver)
+        {
+            var elements = driver.FindElements(locator);
+            if (elements.Count == 0)
+            {
+                return true;
+            }
+            return !elements[0].Displayed;
         }
     }
 }
